@@ -28,8 +28,10 @@ def cleanup(line):
     line = line.replace('cvca ', 'CVG2 ')
     line = line.replace('CVG20? ', 'CVG2 06 ')
     line = line.replace('TUSI ', 'TUS1 ')
+    line = line.replace('TUS106', 'TUS1 06')
     line = line.replace('LEXI ', 'LEX1 ')
     line = line.replace('AMAZO\\I', 'AMAZON')
+    line = line.replace('3LVC', 'BLVD')
     #print('out: ' + line)
     return line
 
@@ -65,7 +67,7 @@ i = 0
 print('Pre-processing text ... ')
 for f in files:
     ext = f[-4:]
-    os.system('magick convert -rotate 90 "' + f + '" ' + folder + 'out/' + str(i) + ext)
+    os.system('magick convert -rotate 90 "' + f + '" ' + folder + 'out/' + str(i).zfill(2) + ext)
     i = i + 1
 
 # Sends them to the OCR scanning program online
@@ -89,6 +91,8 @@ if os.path.exists('out.txt'):
     os.remove('out.txt')
 tmpoutput = open('out.txt', 'w+')
 
+now = datetime.datetime.now()
+
 for line in text:
     namestart = line.find('"ParsedText":"')
     nameend = line.find('\\r\\n')
@@ -98,7 +102,7 @@ for line in text:
     addressend = line.find('UPS GROUND')
     address = line[addressstart+5:addressend]
 
-    out = name + ',' + address.replace('\\r\\n', ',') + '\n'
+    out = now.strftime("%m/%d/%Y") + ',' + name + ',7676 WOODBINE AVENUE,MARKHAM,ON,L3R 2N2,' + address.replace('\\r\\n', ',') + '\n'
     tmpoutput.write(out)
     
     out = cleanup(out)
