@@ -19,6 +19,8 @@ Add more comments for future support
 
 EmailFormat
 ===========
+Requires easygui
+
 Run EmailFormat.ahk first
 Open email with labels
 Type /label and hit enter or space
